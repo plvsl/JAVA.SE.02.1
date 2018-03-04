@@ -2,7 +2,7 @@ package main;
 
 public class Pen {
 
-    private String ManufacturerName;
+    private String manufacturerName;
     private int price;
     private String color;
     private Type type;
@@ -12,7 +12,7 @@ public class Pen {
     }
 
     public Pen(String ManufacturerName, int price, String color, String penType) {
-        this.ManufacturerName = ManufacturerName;
+        this.manufacturerName = ManufacturerName;
         this.price = price;
         this.color = color;
         this.type = Type.valueOf(penType.toUpperCase());
@@ -27,36 +27,32 @@ public class Pen {
         }
 
         Pen pen = (Pen) obj;
-        return price == pen.price &&
-                (ManufacturerName == pen.ManufacturerName || (ManufacturerName != null
-                        && ManufacturerName.toLowerCase().equals(pen.ManufacturerName.toLowerCase())))
-                && (color == pen.color || (color != null && color.toLowerCase().equals(pen.color.toLowerCase())))
-                && (type == pen.type || (type != null && type.equals(pen.type)));
+        if (price != pen.price)
+            return false;
+        else if ((manufacturerName != pen.manufacturerName && manufacturerName == null)
+                || !manufacturerName.toLowerCase().equals(pen.manufacturerName.toLowerCase()))
+            return false;
+        else if ((color != pen.color && color == null) || !color.toLowerCase().equals(pen.color.toLowerCase()))
+            return false;
+        else if ((type != pen.type && type == null) || !type.equals(pen.type))
+            return false;
+        else
+            return true;
     }
 
     @Override
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        if ((ManufacturerName != null) || (color != null) || (type != null)) {
-            result = PRIME * result + price;
-            result = PRIME * result + ManufacturerName.toLowerCase().hashCode();
-            result = PRIME * result + color.toLowerCase().hashCode();
-            result = PRIME * result + type.hashCode();
-            return result;
-
-        } else {
-            result = PRIME * result;
-            result = PRIME * result;
-            result = PRIME * result;
-            return result;
-        }
-
+        return ((manufacturerName != null) || (color != null) || (type != null)) ?
+                PRIME * (PRIME * (PRIME * (PRIME * result + price) +
+                        manufacturerName.toLowerCase().hashCode()) + color.toLowerCase().hashCode()) + type.hashCode() :
+                PRIME * PRIME * PRIME * result;
     }
 
     @Override
     public String toString() {
-        return "ManufacturerName: '" + this.ManufacturerName + "', Price: '" + this.price + "', Color: '" + this.color + "', Type: '" + this.type + "'";
+        return "ManufacturerName: '" + this.manufacturerName + "', Price: '" + this.price + "', Color: '" + this.color + "', Type: '" + this.type + "'";
     }
 
 }
